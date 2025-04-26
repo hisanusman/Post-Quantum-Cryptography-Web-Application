@@ -81,20 +81,3 @@ This project is a simple Flask web application demonstrating Post-Quantum Crypto
 *   Displaying private keys in the browser and transferring them via forms is **highly insecure** in a real-world scenario. Secure key management is critical but outside the scope of this basic demo.
 *   Ensure `FLASK_ENV` is set to `production` and `DEBUG` is `False` when deploying.
 *   Flask-Talisman provides essential security headers, but review and configure them according to your deployment needs.
-
-## Project Structure
-/flask-pqc-app
-|-- venv/ # Virtual environment
-|-- static/
-| |-- css/
-| |-- style.css # Custom styles
-|-- templates/
-| |-- base.html # Base HTML template
-| |-- index.html # Main page template
-|-- .env # Environment variables (SECRET_KEY, etc. - DO NOT COMMIT)
-|-- .env.example # Example environment file
-|-- .gitignore # Git ignore rules
-|-- app.py # Main Flask application logic and routes
-|-- pqc_utils.py # Cryptographic functions (Kyber, AES)
-|-- requirements.txt # Python dependencies
-|-- README.md # This file
