@@ -1,0 +1,13 @@
+/* static/css/style.css */
+
+/* Make textareas wrap text nicely and use a monospaced font for keys/ciphertexts */
+textarea.key-display, textarea.result-display {
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Helps maintain line breaks if any */
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+textarea {
+    resize: vertical; /* Allow vertical resize */
+}
