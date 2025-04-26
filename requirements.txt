@@ -1,0 +1,6 @@
+Flask>=2.0
+kyber-py>=0.1.0  # Educational Kyber implementation
+dilithium-py>=0.1.0  # Educational Dilithium implementation
+python-dotenv>=0.19
+Flask-Talisman>=1.0
+cryptography>=36.0  # For AES symmetric encryption
