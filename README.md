@@ -25,7 +25,7 @@ This project is a simple Flask web application demonstrating Post-Quantum Crypto
 
 ## Technology Stack
 
-*   **Backend:** Python 3.x, Flask
+*   **Backend:** Python 3.10/3.11, Flask
 *   **PQC Library:** [pycrystals](https://github.com/mkannwischer/pycrystals) (Python wrapper for CRYSTALS Kyber/Dilithium)
 *   **Symmetric Crypto:** [cryptography](https://cryptography.io/en/latest/) (for AES-GCM)
 *   **Frontend:** HTML, Bootstrap 5
@@ -83,3 +83,18 @@ This project is a simple Flask web application demonstrating Post-Quantum Crypto
 *   Flask-Talisman provides essential security headers, but review and configure them according to your deployment needs.
 
 ## Project Structure
+/flask-pqc-app
+|-- venv/ # Virtual environment
+|-- static/
+| |-- css/
+| |-- style.css # Custom styles
+|-- templates/
+| |-- base.html # Base HTML template
+| |-- index.html # Main page template
+|-- .env # Environment variables (SECRET_KEY, etc. - DO NOT COMMIT)
+|-- .env.example # Example environment file
+|-- .gitignore # Git ignore rules
+|-- app.py # Main Flask application logic and routes
+|-- pqc_utils.py # Cryptographic functions (Kyber, AES)
+|-- requirements.txt # Python dependencies
+|-- README.md # This file
