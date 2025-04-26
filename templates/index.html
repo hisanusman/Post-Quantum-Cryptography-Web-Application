@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Flask PQC Demo{% endblock %}
+
+{% block content %}
+<div class="row">
+  <!-- Key Generation Section -->
+  <div class="col-md-12 mb-4">
+    <div class="card">
+      <div class="card-header">1. Generate Kyber512 Keys</div>
+      <div class="card-body">
+        <form action="{{ url_for('generate') }}" method="POST">
+          <button type="submit" class="btn btn-primary mb-3">Generate New Keys</button>
+        </form>
+        <div class="mb-3">
+          <label for="publicKey" class="form-label">Public Key (Base64):</label>
+          <textarea class="form-control key-display" id="publicKey" name="public_key_display" rows="3" readonly>{{ pk_b64 }}</textarea>
+        </div>
+        <div class="mb-3">
+          <label for="privateKey" class="form-label">Private Key (Base64):</label>
+          <textarea class="form-control key-display" id="privateKey" name="private_key_display" rows="5" readonly>{{ sk_b64 }}</textarea>
+          <small class="text-danger">Keep your Private Key safe and do not share it!</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Encryption Section -->
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header">2. Encrypt Message (using Public Key)</div>
+      <div class="card-body">
+        <form action="{{ url_for('encrypt') }}" method="POST">
+          <!-- Hidden field to keep SK displayed if generated -->
+          <input type="hidden" name="private_key_display_enc" value="{{ sk_b64 }}">
+          <div class="mb-3">
+            <label for="publicKeyEnc" class="form-label">Public Key (Base64):</label>
+            <textarea class="form-control" id="publicKeyEnc" name="public_key_enc" rows="3" required>{{ pk_b64 }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="messageToEncrypt" class="form-label">Message to Encrypt:</label>
+            <textarea class="form-control" id="messageToEncrypt" name="message_to_encrypt" rows="3" required>{{ message_to_encrypt }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-success">Encrypt</button>
+        </form>
+        <hr>
+        <h5>Encryption Result:</h5>
+         <div class="mb-3">
+            <label for="kemCiphertextEnc" class="form-label">KEM Ciphertext (Base64):</label>
+            <textarea class="form-control result-display" id="kemCiphertextEnc" rows="2" readonly>{{ kem_ct_b64 }}</textarea>
+        </div>
+         <div class="mb-3">
+            <label for="nonceEnc" class="form-label">Nonce (Base64):</label>
+            <textarea class="form-control result-display" id="nonceEnc" rows="1" readonly>{{ nonce_b64 }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="aesCiphertextEnc" class="form-label">AES Ciphertext (Base64):</label>
+            <textarea class="form-control result-display" id="aesCiphertextEnc" rows="3" readonly>{{ aes_ct_b64 }}</textarea>
+        </div>
+         <div class="mb-3">
+            <label for="tagEnc" class="form-label">Auth Tag (Base64):</label>
+            <textarea class="form-control result-display" id="tagEnc" rows="1" readonly>{{ tag_b64 }}</textarea>
+        </div>
+         {% if encryption_error %}
+            <div class="alert alert-danger mt-2">{{ encryption_error }}</div>
+         {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Decryption Section -->
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-header">3. Decrypt Message (using Private Key)</div>
+      <div class="card-body">
+        <form action="{{ url_for('decrypt') }}" method="POST">
+           <!-- Hidden field to keep PK displayed if generated -->
+          <input type="hidden" name="public_key_display_dec" value="{{ pk_b64 }}">
+          <div class="mb-3">
+            <label for="privateKeyDec" class="form-label">Private Key (Base64):</label>
+            <textarea class="form-control" id="privateKeyDec" name="private_key_dec" rows="5" required>{{ sk_b64 }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="kemCiphertextDec" class="form-label">KEM Ciphertext (Base64):</label>
+            <textarea class="form-control" id="kemCiphertextDec" name="kem_ciphertext_dec" rows="2" required>{{ kem_ct_b64 }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label for="nonceDec" class="form-label">Nonce (Base64):</label>
+            <textarea class="form-control" id="nonceDec" name="nonce_dec" rows="1" required>{{ nonce_b64 }}</textarea>
+          </div>
+           <div class="mb-3">
+            <label for="aesCiphertextDec" class="form-label">AES Ciphertext (Base64):</label>
+            <textarea class="form-control" id="aesCiphertextDec" name="aes_ciphertext_dec" rows="3" required>{{ aes_ct_b64 }}</textarea>
+          </div>
+           <div class="mb-3">
+            <label for="tagDec" class="form-label">Auth Tag (Base64):</label>
+            <textarea class="form-control" id="tagDec" name="tag_dec" rows="1" required>{{ tag_b64 }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-info">Decrypt</button>
+        </form>
+        <hr>
+        <h5>Decryption Result:</h5>
+        <div class="mb-3">
+          <label for="decryptedMessage" class="form-label">Decrypted Message:</label>
+          <textarea class="form-control result-display" id="decryptedMessage" rows="3" readonly>{{ decrypted_message }}</textarea>
+        </div>
+         {% if decryption_error %}
+            <div class="alert alert-danger mt-2">{{ decryption_error }}</div>
+         {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="alert alert-warning mt-4">
+    <strong>Note:</strong> This application demonstrates PQC concepts. Keys are displayed for educational purposes and passed between steps via the browser.
+    <strong>Do not use this method for handling keys in a production environment.</strong> Real applications require secure key management practices.
+</div>
+{% endblock %}
