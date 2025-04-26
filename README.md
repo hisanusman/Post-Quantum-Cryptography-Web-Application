@@ -36,7 +36,7 @@ This project is a simple Flask web application demonstrating Post-Quantum Crypto
 
 1.  **Clone the repository:**
     ```bash
-    git clone <repo-url>
+    git clone https://github.com/hisanusman/Post-Quantum-Cryptography-Web-Application.git
     cd flask-pqc-app
     ```
 2.  **Create and activate a virtual environment:**
